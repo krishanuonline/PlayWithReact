@@ -5,8 +5,10 @@ function App() {
 	const [numberAllowed, setNumberAllowed] = useState(false);
 	const [symbolAllowed, setSymbolAllowed] = useState(false);
 	const [password, setPassword] = useState("");
+	const [isCopied, setIsCopied] = useState(false);
 
 	const selectPassword = useRef(null);
+
 	
 
 	const passwordGenerator = useCallback(() => {
@@ -27,6 +29,10 @@ function App() {
 	const copyPassword = useCallback(()=>{
 		selectPassword.current?.select;
 		window.navigator.clipboard.writeText(password);	
+		setIsCopied(true);
+        setTimeout(() => {
+            setIsCopied(false);
+        }, 2000);
 	},[password]);
 
 	useEffect(() => {
@@ -35,6 +41,10 @@ function App() {
 
 	return (
 		<div className="w-full max-w-lg mx-auto shadow-2xl rounded-2xl px-4 py-8 my-8 text-orange-500 bg-gray-900 border border-gray-800 relative overflow-hidden">
+			<div className={`absolute top-10 left-1/2 -translate-x-1/2 bg-green-500 text-white px-4 py-1 rounded-full shadow-xl transition-all duration-300 transform flex items-center gap-2 z-10 ${isCopied ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-90 -translate-y-5 pointer-events-none"}`}>
+                <span className="font-bold text-sm">Copied to clipboard!</span>
+            </div>
+
     		<div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-orange-500 via-purple-500 to-blue-500"></div>
 			<h1 className="text-white text-3xl font-bold text-center mb-6 tracking-wide"> Password <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">Generator</span></h1>
 			<div className="flex shadow-lg rounded-xl overflow-hidden mb-6 border border-gray-700 group focus-within:border-orange-500 transition-all duration-300">
