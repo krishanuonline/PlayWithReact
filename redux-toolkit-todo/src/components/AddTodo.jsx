@@ -1,0 +1,26 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../features/todo/todoSlice";
+
+function AddTodo() {
+
+    const [input, setInput] = useState("");
+    const dispatch = useDispatch();
+
+    const addTodoHandler = (e) =>{
+        e.preventDefault();
+        dispatch(addTodo(input))
+        setInput(""); //clear input field after adding todo
+    }
+
+    return (
+        <form onSubmit={addTodoHandler} className="flex flex-col sm:flex-row items-center gap-3 mt-12 max-w-lg mx-auto">
+            <div className="relative w-full">
+                <input type="text" className="w-full bg-gray-900 rounded-lg border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 text-base outline-none text-gray-100 py-2.5 px-4 leading-8 transition-all duration-300 ease-in-out placeholder-gray-500 shadow-sm"
+                placeholder="What needs to be done?" value={input} onChange={(e) => setInput(e.target.value)} />
+            </div>
+            <button type="submit" className="w-full sm:w-auto flex-shrink-0 text-white bg-indigo-600 border-0 py-2.5 px-8 focus:outline-none hover:bg-indigo-500 active:scale-95 rounded-lg text-lg font-medium transition-all duration-200 shadow-lg shadow-indigo-500/20" >Add Task</button>
+        </form>
+    )
+}
+export default AddTodo;
